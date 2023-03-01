@@ -1,15 +1,19 @@
-import { useAppSelector, useAppDispatch } from "../../src/app/hooks";
+import React from "react";
+import { useAppSelector, useAppDispatch } from "../../../src/app/hooks";
 import {
   increaseQuantity,
   decreaseQuantity,
   toggleAddons,
   setDiscount
-} from "../../src/features/cart/cartSlice";
+} from "../../../src/features/cart/cartSlice";
+import { basePrice, addonPrice } from "../../../src/constants/constants";
 
 function Cart() {
   const dispatch = useAppDispatch();
   const { quantity, addons, discount } = useAppSelector((state) => state.cart);
-  const totalAmount = quantity * 50 + (addons ? 5 : 0);
+  
+  const totalAddonPrice = addons ? addonPrice * quantity : 0;
+  const totalAmount = quantity * basePrice + totalAddonPrice;
   const calculatedDiscount = 1 - discount / 100;
   const totalAmountToPay = totalAmount * calculatedDiscount;
 
